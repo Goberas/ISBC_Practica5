@@ -12,6 +12,7 @@
 package GUI;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import es.ucm.fdi.gaia.ontobridge.OntoBridge;
 import es.ucm.fdi.gaia.ontobridge.OntologyDocument;
@@ -140,7 +141,20 @@ public class InterfazConsultas extends javax.swing.JFrame {
     	ob.initWithPelletReasoner();
     	
     	OntologyDocument actoresOnto= new OntologyDocument("http://www.owl-ontologies.com/Actores.owl", "file:doc/ontologia/Actores.owl");
-    	ob.loadOntology(actoresOnto, new ArrayList<OntologyDocument>(), false);    	
+    	ob.loadOntology(actoresOnto, new ArrayList<OntologyDocument>(), false);   
+    	
+    	pruebasOnto();
+    }
+    
+    private static void pruebasOnto(){
+    	if(ob.existsClass("Actor")){
+    		Iterator<String> it = ob.listInstances("Actor");
+    		System.out.println("Imprime lista de actores:\n");
+    		while(it.hasNext()){
+    			System.out.println(it.next()+"\n");
+    		}
+    	}
+    		
     }
     
     /**
