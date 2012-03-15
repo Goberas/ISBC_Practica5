@@ -11,6 +11,11 @@
 
 package GUI;
 
+import java.util.ArrayList;
+
+import es.ucm.fdi.gaia.ontobridge.OntoBridge;
+import es.ucm.fdi.gaia.ontobridge.OntologyDocument;
+
 /**
  *
  * @author gobo
@@ -130,10 +135,20 @@ public class InterfazConsultas extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_lanzaConsulta3
 
+    private static void inicializaOntobridge(){
+    	ob= new OntoBridge();
+    	ob.initWithPelletReasoner();
+    	
+    	OntologyDocument actoresOnto= new OntologyDocument("http://www.owl-ontologies.com/Actores.owl", "file:doc/ontologia/Actores.owl");
+    	ob.loadOntology(actoresOnto, new ArrayList<OntologyDocument>(), false);    	
+    }
+    
     /**
     * @param args the command line arguments
     */
     public static void main(String args[]) {
+    	inicializaOntobridge();
+    	
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new InterfazConsultas().setVisible(true);
@@ -141,6 +156,7 @@ public class InterfazConsultas extends javax.swing.JFrame {
         });
     }
 
+    private static OntoBridge ob;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bConsulta1;
     private javax.swing.JButton bConsulta2;
