@@ -1,92 +1,323 @@
 <?xml version="1.0"?>
 <rdf:RDF
-    xmlns="http://www.owl-ontologies.com/Actores.owl#"
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns:owl="http://www.w3.org/2002/07/owl#"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns="http://www.owl-ontologies.com/Actores.owl#"
   xml:base="http://www.owl-ontologies.com/Actores.owl">
   <owl:Ontology rdf:about=""/>
-  <owl:Class rdf:ID="Pelicula">
+  <owl:Class rdf:ID="Pelicula_de_accion">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="Pelicula"/>
+    </rdfs:subClassOf>
+    <owl:equivalentClass>
+      <owl:Restriction>
+        <owl:hasValue>
+          <Genero rdf:ID="Accion">
+            <inverse_of_tipo>
+              <Pelicula rdf:ID="Top_Gun">
+                <reparto>
+                  <Actor rdf:ID="Tom_Cruise">
+                    <nacido_en>
+                      <Pais rdf:ID="Estados_Unidos">
+                        <inverse_of_nacido_en rdf:resource="#Tom_Cruise"/>
+                      </Pais>
+                    </nacido_en>
+                    <actua_en>
+                      <Pelicula rdf:ID="Vanilla_Sky">
+                        <reparto>
+                          <Actor rdf:ID="Penelope_Cruz">
+                            <actua_en rdf:resource="#Vanilla_Sky"/>
+                            <actua_en>
+                              <Pelicula rdf:ID="Jamon_Jamon">
+                                <tipo>
+                                  <Genero rdf:ID="Romance">
+                                    <inverse_of_tipo rdf:resource="#Jamon_Jamon"/>
+                                    <inverse_of_tipo rdf:resource="#Vanilla_Sky"/>
+                                    <inverse_of_tipo rdf:resource="#Top_Gun"/>
+                                    <inverse_of_tipo>
+                                      <Pelicula rdf:ID="Mr_and_Mrs_Smith">
+                                        <reparto>
+                                          <Actor rdf:ID="Brad_Pitt">
+                                            <actua_en rdf:resource="#Mr_and_Mrs_Smith"/>
+                                            <nacido_en>
+                                              <Pais rdf:ID="Oklahoma">
+                                                <inverse_of_nacido_en rdf:resource="#Brad_Pitt"/>
+                                              </Pais>
+                                            </nacido_en>
+                                            <es>
+                                              <Sexo rdf:ID="Hombre"/>
+                                            </es>
+                                          </Actor>
+                                        </reparto>
+                                        <reparto>
+                                          <Actor rdf:ID="Angelina_Jolie">
+                                            <es>
+                                              <Sexo rdf:ID="Mujer"/>
+                                            </es>
+                                            <actua_en rdf:resource="#Mr_and_Mrs_Smith"/>
+                                            <nacido_en>
+                                              <Pais rdf:ID="California">
+                                                <inverse_of_nacido_en>
+                                                  <Actores_sin_actuar rdf:ID="Gwyneth_Paltrow">
+                                                    <nacido_en rdf:resource="#California"/>
+                                                    <es rdf:resource="#Mujer"/>
+                                                    <rdf:type>
+                                                      <owl:Class rdf:ID="Actor"/>
+                                                    </rdf:type>
+                                                  </Actores_sin_actuar>
+                                                </inverse_of_nacido_en>
+                                                <inverse_of_nacido_en rdf:resource="#Angelina_Jolie"/>
+                                              </Pais>
+                                            </nacido_en>
+                                          </Actor>
+                                        </reparto>
+                                        <tipo rdf:resource="#Romance"/>
+                                        <tipo>
+                                          <Genero rdf:ID="Comedia">
+                                            <inverse_of_tipo rdf:resource="#Jamon_Jamon"/>
+                                            <inverse_of_tipo rdf:resource="#Mr_and_Mrs_Smith"/>
+                                          </Genero>
+                                        </tipo>
+                                        <tipo rdf:resource="#Accion"/>
+                                      </Pelicula>
+                                    </inverse_of_tipo>
+                                  </Genero>
+                                </tipo>
+                                <tipo rdf:resource="#Comedia"/>
+                                <tipo>
+                                  <Genero rdf:ID="Drama">
+                                    <inverse_of_tipo rdf:resource="#Jamon_Jamon"/>
+                                    <inverse_of_tipo>
+                                      <Pelicula rdf:ID="Biutiful">
+                                        <reparto>
+                                          <Actor rdf:ID="Javier_Bardem">
+                                            <nacido_en>
+                                              <Pais rdf:ID="Espana">
+                                                <inverse_of_nacido_en rdf:resource="#Javier_Bardem"/>
+                                                <inverse_of_nacido_en rdf:resource="#Penelope_Cruz"/>
+                                              </Pais>
+                                            </nacido_en>
+                                            <actua_en rdf:resource="#Biutiful"/>
+                                            <actua_en>
+                                              <Pelicula rdf:ID="Mar_Adentro">
+                                                <reparto rdf:resource="#Javier_Bardem"/>
+                                                <tipo rdf:resource="#Drama"/>
+                                                <tipo>
+                                                  <Genero rdf:ID="Biografia">
+                                                    <inverse_of_tipo rdf:resource="#Mar_Adentro"/>
+                                                  </Genero>
+                                                </tipo>
+                                              </Pelicula>
+                                            </actua_en>
+                                            <actua_en rdf:resource="#Jamon_Jamon"/>
+                                            <es rdf:resource="#Hombre"/>
+                                          </Actor>
+                                        </reparto>
+                                        <tipo rdf:resource="#Drama"/>
+                                      </Pelicula>
+                                    </inverse_of_tipo>
+                                    <inverse_of_tipo rdf:resource="#Mar_Adentro"/>
+                                    <inverse_of_tipo rdf:resource="#Top_Gun"/>
+                                  </Genero>
+                                </tipo>
+                                <reparto rdf:resource="#Javier_Bardem"/>
+                                <reparto rdf:resource="#Penelope_Cruz"/>
+                              </Pelicula>
+                            </actua_en>
+                            <nacido_en rdf:resource="#Espana"/>
+                            <es rdf:resource="#Mujer"/>
+                          </Actor>
+                        </reparto>
+                        <reparto rdf:resource="#Tom_Cruise"/>
+                        <tipo rdf:resource="#Romance"/>
+                        <tipo>
+                          <Genero rdf:ID="Ciencia_Ficcion">
+                            <inverse_of_tipo rdf:resource="#Vanilla_Sky"/>
+                          </Genero>
+                        </tipo>
+                        <tipo>
+                          <Genero rdf:ID="Misterio">
+                            <inverse_of_tipo rdf:resource="#Vanilla_Sky"/>
+                          </Genero>
+                        </tipo>
+                      </Pelicula>
+                    </actua_en>
+                    <actua_en rdf:resource="#Top_Gun"/>
+                    <es rdf:resource="#Hombre"/>
+                  </Actor>
+                </reparto>
+                <tipo rdf:resource="#Romance"/>
+                <tipo rdf:resource="#Drama"/>
+                <tipo rdf:resource="#Accion"/>
+              </Pelicula>
+            </inverse_of_tipo>
+            <inverse_of_tipo rdf:resource="#Mr_and_Mrs_Smith"/>
+          </Genero>
+        </owl:hasValue>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:ID="tipo"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </owl:equivalentClass>
+  </owl:Class>
+  <owl:Class rdf:ID="Actor_con_pelicula">
     <owl:disjointWith>
-      <owl:Class rdf:ID="Actor"/>
+      <owl:Class rdf:ID="Actor_sin_pelicula"/>
+    </owl:disjointWith>
+    <owl:equivalentClass>
+      <owl:Class>
+        <owl:intersectionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#Actor"/>
+          <owl:Restriction>
+            <owl:someValuesFrom>
+              <owl:Class rdf:about="#Pelicula"/>
+            </owl:someValuesFrom>
+            <owl:onProperty>
+              <owl:ObjectProperty rdf:ID="actua_en"/>
+            </owl:onProperty>
+          </owl:Restriction>
+        </owl:intersectionOf>
+      </owl:Class>
+    </owl:equivalentClass>
+  </owl:Class>
+  <owl:Class rdf:ID="Personaje_Ficcion">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="Personaje"/>
+    </rdfs:subClassOf>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Actor"/>
+    </owl:disjointWith>
+  </owl:Class>
+  <owl:Class rdf:ID="Genero">
+    <owl:disjointWith>
+      <owl:Class rdf:ID="Sexo"/>
     </owl:disjointWith>
     <owl:disjointWith>
-      <owl:Class rdf:ID="Genero"/>
+      <owl:Class rdf:about="#Personaje"/>
     </owl:disjointWith>
     <owl:disjointWith>
       <owl:Class rdf:ID="Pais"/>
     </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:ID="Personaje"/>
-    </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:ID="Sexo"/>
-    </owl:disjointWith>
-    <owl:equivalentClass>
+  </owl:Class>
+  <owl:Class rdf:about="#Personaje">
+    <rdfs:subClassOf>
       <owl:Restriction>
         <owl:onProperty>
-          <owl:ObjectProperty rdf:ID="tipo"/>
+          <owl:ObjectProperty rdf:ID="es"/>
         </owl:onProperty>
-        <owl:someValuesFrom>
-          <owl:Class rdf:about="#Genero"/>
-        </owl:someValuesFrom>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Sexo"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Pais"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Genero"/>
+  </owl:Class>
+  <owl:Class rdf:about="#Actor_sin_pelicula">
+    <owl:disjointWith rdf:resource="#Actor_con_pelicula"/>
+    <owl:equivalentClass>
+      <owl:Class>
+        <owl:intersectionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#Actor"/>
+          <owl:Class>
+            <owl:complementOf rdf:resource="#Actor_con_pelicula"/>
+          </owl:Class>
+        </owl:intersectionOf>
+      </owl:Class>
+    </owl:equivalentClass>
+  </owl:Class>
+  <owl:Class rdf:ID="Serie">
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Pelicula"/>
+    </owl:disjointWith>
+  </owl:Class>
+  <owl:Class rdf:ID="Actores_de_drama">
+    <owl:equivalentClass>
+      <owl:Class>
+        <owl:intersectionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#Actor"/>
+          <owl:Restriction>
+            <owl:someValuesFrom>
+              <owl:Class rdf:ID="Pelicula_drama"/>
+            </owl:someValuesFrom>
+            <owl:onProperty>
+              <owl:ObjectProperty rdf:about="#actua_en"/>
+            </owl:onProperty>
+          </owl:Restriction>
+        </owl:intersectionOf>
+      </owl:Class>
+    </owl:equivalentClass>
+  </owl:Class>
+  <owl:Class rdf:about="#Pais">
+    <owl:disjointWith rdf:resource="#Personaje"/>
+    <owl:disjointWith rdf:resource="#Genero"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Sexo"/>
+    </owl:disjointWith>
+  </owl:Class>
+  <owl:Class rdf:ID="Pelicula_de_animacion">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#Pelicula"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="Actores_sin_actuar">
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="#actua_en"/>
+        </owl:onProperty>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >0</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+  </owl:Class>
+  <owl:Class rdf:about="#Pelicula">
+    <owl:disjointWith rdf:resource="#Serie"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Pelicula_comedia">
+    <rdfs:subClassOf rdf:resource="#Pelicula"/>
+    <owl:equivalentClass>
+      <owl:Restriction>
+        <owl:hasValue rdf:resource="#Comedia"/>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="#tipo"/>
+        </owl:onProperty>
       </owl:Restriction>
     </owl:equivalentClass>
   </owl:Class>
-  <owl:Class rdf:ID="Cine">
-    <owl:disjointWith>
-      <owl:Class rdf:ID="Serie"/>
-    </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:ID="Cortometraje"/>
-    </owl:disjointWith>
+  <owl:Class rdf:about="#Pelicula_drama">
+    <owl:equivalentClass>
+      <owl:Restriction>
+        <owl:hasValue rdf:resource="#Drama"/>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="#tipo"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </owl:equivalentClass>
     <rdfs:subClassOf rdf:resource="#Pelicula"/>
   </owl:Class>
-  <owl:Class rdf:ID="Personaje_Ficcion">
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Actor"/>
-    </owl:disjointWith>
-    <rdfs:subClassOf>
-      <owl:Class rdf:about="#Personaje"/>
-    </rdfs:subClassOf>
-  </owl:Class>
-  <owl:Class rdf:about="#Sexo">
-    <owl:disjointWith rdf:resource="#Pelicula"/>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Genero"/>
-    </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Pais"/>
-    </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Personaje"/>
-    </owl:disjointWith>
-  </owl:Class>
-  <owl:Class rdf:about="#Genero">
-    <owl:disjointWith rdf:resource="#Pelicula"/>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Pais"/>
-    </owl:disjointWith>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Personaje"/>
-    </owl:disjointWith>
-    <owl:disjointWith rdf:resource="#Sexo"/>
-  </owl:Class>
-  <owl:Class rdf:about="#Cortometraje">
-    <rdfs:subClassOf rdf:resource="#Pelicula"/>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Serie"/>
-    </owl:disjointWith>
-    <owl:disjointWith rdf:resource="#Cine"/>
-  </owl:Class>
-  <owl:Class rdf:about="#Pais">
-    <owl:disjointWith rdf:resource="#Sexo"/>
-    <owl:disjointWith rdf:resource="#Pelicula"/>
-    <owl:disjointWith rdf:resource="#Genero"/>
-    <owl:disjointWith>
-      <owl:Class rdf:about="#Personaje"/>
-    </owl:disjointWith>
+  <owl:Class rdf:ID="Actores_de_accion">
+    <owl:equivalentClass>
+      <owl:Class>
+        <owl:intersectionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#Actor"/>
+          <owl:Restriction>
+            <owl:onProperty>
+              <owl:ObjectProperty rdf:about="#actua_en"/>
+            </owl:onProperty>
+            <owl:someValuesFrom rdf:resource="#Pelicula_de_accion"/>
+          </owl:Restriction>
+        </owl:intersectionOf>
+      </owl:Class>
+    </owl:equivalentClass>
   </owl:Class>
   <owl:Class rdf:about="#Actor">
     <owl:equivalentClass>
@@ -102,221 +333,59 @@
         </owl:intersectionOf>
       </owl:Class>
     </owl:equivalentClass>
-    <owl:disjointWith rdf:resource="#Pelicula"/>
     <owl:disjointWith rdf:resource="#Personaje_Ficcion"/>
   </owl:Class>
-  <owl:Class rdf:about="#Personaje">
-    <owl:disjointWith rdf:resource="#Pelicula"/>
-    <owl:disjointWith rdf:resource="#Genero"/>
+  <owl:Class rdf:about="#Sexo">
+    <owl:disjointWith rdf:resource="#Personaje"/>
     <owl:disjointWith rdf:resource="#Pais"/>
-    <owl:disjointWith rdf:resource="#Sexo"/>
-    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
-    <rdfs:subClassOf>
-      <owl:Restriction>
-        <owl:onProperty>
-          <owl:ObjectProperty rdf:ID="es"/>
-        </owl:onProperty>
-        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1</owl:cardinality>
-      </owl:Restriction>
-    </rdfs:subClassOf>
-    <owl:equivalentClass>
-      <owl:Restriction>
-        <owl:onProperty>
-          <owl:ObjectProperty rdf:ID="actua_en"/>
-        </owl:onProperty>
-        <owl:someValuesFrom rdf:resource="#Pelicula"/>
-      </owl:Restriction>
-    </owl:equivalentClass>
+    <owl:disjointWith rdf:resource="#Genero"/>
   </owl:Class>
-  <owl:Class rdf:about="#Serie">
-    <rdfs:subClassOf rdf:resource="#Pelicula"/>
-    <owl:disjointWith rdf:resource="#Cine"/>
-    <owl:disjointWith rdf:resource="#Cortometraje"/>
-  </owl:Class>
-  <owl:ObjectProperty rdf:about="#tipo">
-    <rdfs:range rdf:resource="#Genero"/>
-    <rdfs:domain rdf:resource="#Pelicula"/>
+  <owl:ObjectProperty rdf:ID="inverse_of_tipo">
     <owl:inverseOf>
-      <owl:ObjectProperty rdf:ID="inverse_of_tipo"/>
+      <owl:ObjectProperty rdf:about="#tipo"/>
     </owl:inverseOf>
-  </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:about="#actua_en">
-    <rdfs:range rdf:resource="#Pelicula"/>
-    <rdfs:domain rdf:resource="#Personaje"/>
-    <owl:inverseOf>
-      <owl:ObjectProperty rdf:ID="reparto"/>
-    </owl:inverseOf>
+    <rdfs:domain rdf:resource="#Genero"/>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="inverse_of_nacido_en">
     <owl:inverseOf>
       <owl:ObjectProperty rdf:about="#nacido_en"/>
     </owl:inverseOf>
   </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#tipo">
+    <rdfs:range rdf:resource="#Genero"/>
+    <owl:inverseOf rdf:resource="#inverse_of_tipo"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#actua_en">
+    <rdfs:domain rdf:resource="#Personaje"/>
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:ID="reparto"/>
+    </owl:inverseOf>
+  </owl:ObjectProperty>
   <owl:ObjectProperty rdf:about="#reparto">
-    <owl:inverseOf rdf:resource="#actua_en"/>
-    <rdfs:domain rdf:resource="#Pelicula"/>
     <rdfs:range rdf:resource="#Personaje"/>
+    <owl:inverseOf rdf:resource="#actua_en"/>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:about="#nacido_en">
     <owl:inverseOf rdf:resource="#inverse_of_nacido_en"/>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:about="#es">
-    <rdfs:domain rdf:resource="#Personaje"/>
     <rdfs:range rdf:resource="#Sexo"/>
+    <rdfs:domain rdf:resource="#Personaje"/>
   </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:about="#inverse_of_tipo">
-    <owl:inverseOf rdf:resource="#tipo"/>
-    <rdfs:domain rdf:resource="#Genero"/>
-    <rdfs:range rdf:resource="#Pelicula"/>
-  </owl:ObjectProperty>
-  <Genero rdf:ID="Ciencia_Ficcion">
-    <inverse_of_tipo>
-      <Cine rdf:ID="Vanilla_Sky">
-        <reparto>
-          <Actor rdf:ID="Tom_Cruise">
-            <es>
-              <Sexo rdf:ID="Hombre"/>
-            </es>
-            <actua_en>
-              <Cine rdf:ID="Top_Gun">
-                <tipo>
-                  <Genero rdf:ID="Accion">
-                    <inverse_of_tipo>
-                      <Cine rdf:ID="Mr_and_Mrs_Smith">
-                        <reparto>
-                          <Actor rdf:ID="Angelina_Jolie">
-                            <actua_en rdf:resource="#Mr_and_Mrs_Smith"/>
-                            <es>
-                              <Sexo rdf:ID="Mujer"/>
-                            </es>
-                            <nacido_en>
-                              <Pais rdf:ID="California">
-                                <inverse_of_nacido_en rdf:resource="#Angelina_Jolie"/>
-                                <inverse_of_nacido_en>
-                                  <Actor rdf:ID="Gwyneth_Paltrow">
-                                    <es rdf:resource="#Mujer"/>
-                                    <nacido_en rdf:resource="#California"/>
-                                  </Actor>
-                                </inverse_of_nacido_en>
-                              </Pais>
-                            </nacido_en>
-                          </Actor>
-                        </reparto>
-                        <reparto>
-                          <Actor rdf:ID="Brad_Pitt">
-                            <actua_en rdf:resource="#Mr_and_Mrs_Smith"/>
-                            <es rdf:resource="#Hombre"/>
-                            <nacido_en>
-                              <Pais rdf:ID="Oklahoma">
-                                <inverse_of_nacido_en rdf:resource="#Brad_Pitt"/>
-                              </Pais>
-                            </nacido_en>
-                          </Actor>
-                        </reparto>
-                        <tipo rdf:resource="#Accion"/>
-                        <tipo>
-                          <Genero rdf:ID="Comedia">
-                            <inverse_of_tipo rdf:resource="#Mr_and_Mrs_Smith"/>
-                            <inverse_of_tipo>
-                              <Cine rdf:ID="Jamon_Jamon">
-                                <tipo>
-                                  <Genero rdf:ID="Drama">
-                                    <inverse_of_tipo rdf:resource="#Top_Gun"/>
-                                    <inverse_of_tipo rdf:resource="#Jamon_Jamon"/>
-                                    <inverse_of_tipo>
-                                      <Cine rdf:ID="Mar_Adentro">
-                                        <tipo>
-                                          <Genero rdf:ID="Biografia">
-                                            <inverse_of_tipo rdf:resource="#Mar_Adentro"/>
-                                          </Genero>
-                                        </tipo>
-                                        <tipo rdf:resource="#Drama"/>
-                                        <reparto>
-                                          <Actor rdf:ID="Javier_Bardem">
-                                            <es rdf:resource="#Hombre"/>
-                                            <actua_en rdf:resource="#Jamon_Jamon"/>
-                                            <actua_en rdf:resource="#Mar_Adentro"/>
-                                            <actua_en>
-                                              <Cine rdf:ID="Biutiful">
-                                                <reparto rdf:resource="#Javier_Bardem"/>
-                                                <tipo rdf:resource="#Drama"/>
-                                              </Cine>
-                                            </actua_en>
-                                            <nacido_en>
-                                              <Pais rdf:ID="Espana">
-                                                <inverse_of_nacido_en>
-                                                  <Actor rdf:ID="Penelope_Cruz">
-                                                    <actua_en rdf:resource="#Jamon_Jamon"/>
-                                                    <actua_en rdf:resource="#Vanilla_Sky"/>
-                                                    <es rdf:resource="#Mujer"/>
-                                                    <nacido_en rdf:resource="#Espana"/>
-                                                  </Actor>
-                                                </inverse_of_nacido_en>
-                                                <inverse_of_nacido_en rdf:resource="#Javier_Bardem"/>
-                                              </Pais>
-                                            </nacido_en>
-                                          </Actor>
-                                        </reparto>
-                                      </Cine>
-                                    </inverse_of_tipo>
-                                    <inverse_of_tipo rdf:resource="#Biutiful"/>
-                                  </Genero>
-                                </tipo>
-                                <tipo rdf:resource="#Comedia"/>
-                                <tipo>
-                                  <Genero rdf:ID="Romance">
-                                    <inverse_of_tipo rdf:resource="#Mr_and_Mrs_Smith"/>
-                                    <inverse_of_tipo rdf:resource="#Top_Gun"/>
-                                    <inverse_of_tipo rdf:resource="#Jamon_Jamon"/>
-                                    <inverse_of_tipo rdf:resource="#Vanilla_Sky"/>
-                                  </Genero>
-                                </tipo>
-                                <reparto rdf:resource="#Penelope_Cruz"/>
-                                <reparto rdf:resource="#Javier_Bardem"/>
-                              </Cine>
-                            </inverse_of_tipo>
-                          </Genero>
-                        </tipo>
-                        <tipo rdf:resource="#Romance"/>
-                      </Cine>
-                    </inverse_of_tipo>
-                    <inverse_of_tipo rdf:resource="#Top_Gun"/>
-                  </Genero>
-                </tipo>
-                <tipo rdf:resource="#Drama"/>
-                <tipo rdf:resource="#Romance"/>
-                <reparto rdf:resource="#Tom_Cruise"/>
-              </Cine>
-            </actua_en>
-            <actua_en rdf:resource="#Vanilla_Sky"/>
-          </Actor>
-        </reparto>
-        <reparto rdf:resource="#Penelope_Cruz"/>
-        <tipo>
-          <Genero rdf:ID="Misterio">
-            <inverse_of_tipo rdf:resource="#Vanilla_Sky"/>
-          </Genero>
-        </tipo>
-        <tipo rdf:resource="#Ciencia_Ficcion"/>
-        <tipo rdf:resource="#Romance"/>
-      </Cine>
-    </inverse_of_tipo>
-  </Genero>
-  <Genero rdf:ID="Animacion">
-    <inverse_of_tipo>
+  <Personaje_Ficcion rdf:ID="Marge_Simpson">
+    <es rdf:resource="#Mujer"/>
+    <actua_en>
       <Serie rdf:ID="Los_Simpson">
-        <tipo rdf:resource="#Animacion"/>
         <reparto>
-          <Personaje_Ficcion rdf:ID="Homer_Simpson">
-            <es rdf:resource="#Hombre"/>
+          <Personaje_Ficcion rdf:ID="Maggie_Simpson">
             <actua_en rdf:resource="#Los_Simpson"/>
+            <es rdf:resource="#Mujer"/>
           </Personaje_Ficcion>
         </reparto>
         <reparto>
-          <Personaje_Ficcion rdf:ID="Marge_Simpson">
+          <Personaje_Ficcion rdf:ID="Bart_Simpson">
+            <es rdf:resource="#Hombre"/>
             <actua_en rdf:resource="#Los_Simpson"/>
-            <es rdf:resource="#Mujer"/>
           </Personaje_Ficcion>
         </reparto>
         <reparto>
@@ -325,21 +394,21 @@
             <es rdf:resource="#Mujer"/>
           </Personaje_Ficcion>
         </reparto>
+        <reparto rdf:resource="#Marge_Simpson"/>
         <reparto>
-          <Personaje_Ficcion rdf:ID="Bart_Simpson">
+          <Personaje_Ficcion rdf:ID="Homer_Simpson">
             <actua_en rdf:resource="#Los_Simpson"/>
             <es rdf:resource="#Hombre"/>
           </Personaje_Ficcion>
         </reparto>
-        <reparto>
-          <Personaje_Ficcion rdf:ID="Maggie_Simpson">
-            <es rdf:resource="#Mujer"/>
-            <actua_en rdf:resource="#Los_Simpson"/>
-          </Personaje_Ficcion>
-        </reparto>
+        <tipo>
+          <Genero rdf:ID="Animacion">
+            <inverse_of_tipo rdf:resource="#Los_Simpson"/>
+          </Genero>
+        </tipo>
       </Serie>
-    </inverse_of_tipo>
-  </Genero>
+    </actua_en>
+  </Personaje_Ficcion>
   <Genero rdf:ID="Terror"/>
   <Pais rdf:ID="New_York"/>
 </rdf:RDF>
