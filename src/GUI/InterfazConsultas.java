@@ -122,7 +122,7 @@ public class InterfazConsultas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lanzaConsulta1(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lanzaConsulta1
-        tResultado.setText("Actores que hayan participado en mas de tres peliculas:\n"+masDeTresPeliculas());
+        tResultado.setText("Actores que hayan participado en al menos tres peliculas:\n"+masDeTresPeliculas());
         // TODO add your handling code here:
     }//GEN-LAST:event_lanzaConsulta1
 
@@ -147,39 +147,68 @@ public class InterfazConsultas extends javax.swing.JFrame {
     ///// Consultas
     
     private static String masDeTresPeliculas(){
-    	String lista = "";
-    	if(ob.existsClass("Actores_mas_de_1_pelicula")){
-    		Iterator<String> it = ob.listInstances("Actores_mas_de_1_pelicula");
+    	String lista = "\n";
+    	if(ob.existsClass("Actor")){
+    		Iterator<String> it = ob.listInstances("Actor");
+    		ArrayList<String> actores = new ArrayList<String>();
     		while(it.hasNext()){
-    			lista+=it.next()+"\n";
+    			actores.add(it.next());
     		}
+    		int[] indActor= new int[actores.size()];
+    		for(int i=0; i< actores.size();i++)
+    			indActor[i]=0;
+    		
+    		Iterator<String> itPelis = ob.listInstances("Pelicula");
+    		ArrayList<String> pelis = new ArrayList<String>();
+    		while(itPelis.hasNext())
+    			pelis.add(itPelis.next());
+    		
+    		for(String pelicula : pelis){
+    			Iterator<String> itPeli = ob.listPropertyValue(pelicula, "reparto");
+    			ArrayList<String> actoresPeli = new ArrayList<String>();
+    			while(itPeli.hasNext())
+        			actoresPeli.add(itPeli.next());
+    			
+    			for(String actor:actoresPeli){
+    				int i=actores.indexOf(actor);
+    				indActor[i]++;
+    			}
+    		}
+    		for(int i=0; i<actores.size();i++)
+    			if(indActor[i]>2){
+					String nombreActor[]=actores.get(i).split("#");
+					lista += nombreActor[1]+"\n";
+    			}
     	}
+    	
     	return lista;
     		
     }
     
     private static String actoresPeliculaEspanola(){
-    	String lista = "";
+    	String lista = "\n";
     	if(ob.existsClass("Actores_espanola")){
     		Iterator<String> it = ob.listInstances("Actores_espanola");
     		while(it.hasNext()){
-    			lista+=it.next()+"\n";
+				String nombreActor[]=it.next().split("#");
+				lista += nombreActor[1]+"\n";
     		}
     	}
     	return lista;	
     }
     
     private static String repartoBardem(){
-    	// TODO
-    	String lista = "";
+    	String lista = "\n";
     	if(ob.existsClass("Comparte_reparto_con_Bardem")){
     		Iterator<String> it = ob.listInstances("Comparte_reparto_con_Bardem");
     		while(it.hasNext()){
     			String actor = "";
     			actor += it.next()+"\n";
     			int n = actor.length();
-    			if (!actor.substring(n-7,n).equals("Bardem"+'\n'))
-    				lista += actor;
+    			if (!actor.substring(n-7,n).equals("Bardem"+'\n')){
+    				String nombreActor[]=actor.split("#");
+    				lista += nombreActor[1]+"\n";
+    			}
     		}
     	}
     	return lista;	
