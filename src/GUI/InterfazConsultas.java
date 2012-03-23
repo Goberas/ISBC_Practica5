@@ -122,18 +122,17 @@ public class InterfazConsultas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lanzaConsulta1(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lanzaConsulta1
-        tResultado.setText("Actores que hayan participado en más de tres peliculas:\n");
+        tResultado.setText("Actores que hayan participado en mas de tres peliculas:\n"+masDeTresPeliculas());
         // TODO add your handling code here:
     }//GEN-LAST:event_lanzaConsulta1
 
     private void lanzaConsulta2(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lanzaConsulta2
-        tResultado.setText("Parejas de actores que no han aparecido juntos en ninguna película pero tienen compañeros comunes:\n");
+        tResultado.setText("Actores que comparten reparto con Javier Bardem:\n"+repartoBardem());
         // TODO add your handling code here:
     }//GEN-LAST:event_lanzaConsulta2
 
-    private void lanzaConsulta3(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lanzaConsulta3
-        tResultado.setText("Personajes que aparecen alguna serie o película española:\n");
-        // TODO add your handling code here:
+    private void lanzaConsulta3(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lanzaConsulta3        
+    	tResultado.setText("Personajes que aparecen alguna serie o pelicula espanyola:\n"+actoresPeliculaEspanola());
     }//GEN-LAST:event_lanzaConsulta3
 
     private static void inicializaOntobridge(){
@@ -141,20 +140,49 @@ public class InterfazConsultas extends javax.swing.JFrame {
     	ob.initWithPelletReasoner();
     	
     	OntologyDocument actoresOnto= new OntologyDocument("http://www.owl-ontologies.com/Actores.owl", "file:doc/ontologia/Actores.owl");
-    	ob.loadOntology(actoresOnto, new ArrayList<OntologyDocument>(), false);   
-    	
-    	pruebasOnto();
+    	ob.loadOntology(actoresOnto, new ArrayList<OntologyDocument>(), false);
     }
     
-    private static void pruebasOnto(){
-    	if(ob.existsClass("Actor")){
-    		Iterator<String> it = ob.listInstances("Actor");
-    		System.out.println("Imprime lista de actores:\n");
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    ///// Consultas
+    
+    private static String masDeTresPeliculas(){
+    	String lista = "";
+    	if(ob.existsClass("Actores_mas_de_1_pelicula")){
+    		Iterator<String> it = ob.listInstances("Actores_mas_de_1_pelicula");
     		while(it.hasNext()){
-    			System.out.println(it.next()+"\n");
+    			lista+=it.next()+"\n";
     		}
     	}
+    	return lista;
     		
+    }
+    
+    private static String actoresPeliculaEspanola(){
+    	String lista = "";
+    	if(ob.existsClass("Actores_espanola")){
+    		Iterator<String> it = ob.listInstances("Actores_espanola");
+    		while(it.hasNext()){
+    			lista+=it.next()+"\n";
+    		}
+    	}
+    	return lista;	
+    }
+    
+    private static String repartoBardem(){
+    	// TODO
+    	String lista = "";
+    	if(ob.existsClass("Comparte_reparto_con_Bardem")){
+    		Iterator<String> it = ob.listInstances("Comparte_reparto_con_Bardem");
+    		while(it.hasNext()){
+    			String actor = "";
+    			actor += it.next()+"\n";
+    			int n = actor.length();
+    			if (!actor.substring(n-7,n).equals("Bardem"+'\n'))
+    				lista += actor;
+    		}
+    	}
+    	return lista;	
     }
     
     /**
