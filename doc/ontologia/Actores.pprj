@@ -1,4 +1,4 @@
-; Fri Mar 23 00:05:17 CET 2012
+; Tue Mar 27 20:31:07 CEST 2012
 ; 
 ;+ (version "3.3.1")
 ;+ (build "Build 430")
@@ -18,27 +18,27 @@
 	(property_list [Actores_ProjectKB_Instance_11])
 	(widget_class_name "edu.stanford.smi.protegex.changes.ChangesTab"))
 
-([Actores_ProjectKB_Instance_104] of  String
+([Actores_ProjectKB_Instance_10751] of  String
 
 	(name "owl:Class")
 	(string_value "%3ANAME"))
 
-([Actores_ProjectKB_Instance_105] of  String
+([Actores_ProjectKB_Instance_10752] of  String
 
 	(name ":INSTANCE-ANNOTATION")
 	(string_value "%3AANNOTATION-TEXT"))
 
-([Actores_ProjectKB_Instance_106] of  String
+([Actores_ProjectKB_Instance_10753] of  String
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
-([Actores_ProjectKB_Instance_107] of  String
+([Actores_ProjectKB_Instance_10754] of  String
 
 	(name "owl:Thing")
 	(string_value "%3ANAME"))
 
-([Actores_ProjectKB_Instance_108] of  String
+([Actores_ProjectKB_Instance_10755] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
@@ -256,11 +256,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[Actores_ProjectKB_Instance_104]
-		[Actores_ProjectKB_Instance_105]
-		[Actores_ProjectKB_Instance_106]
-		[Actores_ProjectKB_Instance_107]
-		[Actores_ProjectKB_Instance_108]))
+		[Actores_ProjectKB_Instance_10751]
+		[Actores_ProjectKB_Instance_10752]
+		[Actores_ProjectKB_Instance_10753]
+		[Actores_ProjectKB_Instance_10754]
+		[Actores_ProjectKB_Instance_10755]))
 
 ([CLSES_TAB] of  Widget
 
@@ -7183,12 +7183,12 @@
 		[KB_713803_Instance_693]
 		[KB_313796_Instance_943]
 		[KB_938545_Instance_495]
-		[KB_713803_Instance_303]
 		[STANDARD_CLASS_FORM_WIDGET]
+		[KB_713803_Instance_303]
 		[KB_313796_Instance_852]
 		[Instance_1005]
-		[KB_301165_Instance_1013]
 		[Instance_581]
+		[KB_301165_Instance_1013]
 		[KB_938545_Instance_412]
 		[KB_764103_Instance_545]
 		[KB_713803_Instance_390]
@@ -7225,18 +7225,18 @@
 		"xsd:integer"
 		"xsd:unsignedShort"
 		"owl:allValuesFrom"
-		"protege:inferredSuperclassOf"
 		"rdfs:member"
+		"protege:inferredSuperclassOf"
 		"xsd:base64Binary"
 		"owl:Class"
-		"owl:Ontology"
 		"rdfs:Container"
-		"owl:DataRange"
-		"xsd:gMonthDay"
+		"owl:Ontology"
 		":TO"
+		"xsd:gMonthDay"
+		"owl:DataRange"
 		"xsd:NMTOKEN"
-		"xsd:QName"
 		"xsd:unsignedInt"
+		"xsd:QName"
 		"owl:FunctionalProperty"
 		"xsd:long"
 		"owl:onProperty"
@@ -7253,8 +7253,8 @@
 		"owl:AnnotationProperty"
 		"xsd:unsignedLong"
 		"xsd:unsignedByte"
-		"rdfs:Class"
 		"protege:inferredSubclassOf"
+		"rdfs:Class"
 		"rdf:first"
 		"xsd:short"
 		"rdf:List"
@@ -7264,41 +7264,41 @@
 		"rdf:rest"
 		"xsd:decimal"
 		"rdf:subject"
-		"rdf:value"
-		"owl:SymmetricProperty"
-		"owl:sameAs"
 		"xsd:Name"
+		"owl:sameAs"
+		"owl:SymmetricProperty"
+		"rdf:value"
 		"xsd:byte"
-		"owl:differentFrom"
 		"owl:AllDifferent"
-		"rdf:Property"
+		"owl:differentFrom"
 		"owl:Nothing"
-		"owl:InverseFunctionalProperty"
+		"rdf:Property"
 		"owl:cardinality"
+		"owl:InverseFunctionalProperty"
 		"xsd:nonNegativeInteger"
 		"rdf:Statement"
-		":FROM"
 		"rdfs:Literal"
-		"xsd:anySimpleType"
+		":FROM"
 		"owl:disjointWith"
+		"xsd:anySimpleType"
 		"owl:minCardinality"
 		"xsd:ID"
 		"xsd:gDay"
 		"xsd:gYearMonth"
-		"xsd:NCName"
 		"owl:distinctMembers"
+		"xsd:NCName"
 		"xsd:nonPositiveInteger"
 		"rdfs:Datatype"
-		":DIRECTED-BINARY-RELATION"
-		"xsd:token"
 		"owl:TransitiveProperty"
-		"xsd:ENTITY"
-		"xsd:normalizedString"
+		"xsd:token"
+		":DIRECTED-BINARY-RELATION"
 		"xsd:IDREF"
+		"xsd:normalizedString"
+		"xsd:ENTITY"
 		"xsd:gMonth"
-		"rdf:type"
-		"owl:oneOf"
 		"owl:maxCardinality"
+		"owl:oneOf"
+		"rdf:type"
 		"rdf:object")
 	(journaling_enabled FALSE)
 	(next_frame_number 0)
