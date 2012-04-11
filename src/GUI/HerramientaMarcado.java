@@ -11,15 +11,10 @@
 
 package GUI;
 
-import java.awt.Component;
 import java.util.ArrayList;
 
-import javax.swing.Icon;
-import javax.swing.JPanel;
-import javax.swing.JTree;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeCellRenderer;
-
+import es.ucm.fdi.gaia.ontobridge.OntoBridge;
+import es.ucm.fdi.gaia.ontobridge.OntologyDocument;
 
 /**
  *
@@ -30,6 +25,10 @@ public class HerramientaMarcado extends javax.swing.JFrame {
     /** Creates new form HerramientaMarcado */
     public HerramientaMarcado() {
         initComponents();
+        inicializaOntobridge();
+        arbol = new PnlConceptsAndInstancesTree(ob, false);
+        pOnto.add(arbol);
+        //pack();
     }
 
     /** This method is called from within the constructor to
@@ -41,47 +40,38 @@ public class HerramientaMarcado extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox();
-        jComboBox2 = new javax.swing.JComboBox();
-        jButton1 = new javax.swing.JButton();
+        lOnto = new javax.swing.JLabel();
+        lOpciones = new javax.swing.JLabel();
+        pFoto = new javax.swing.JPanel();
+        cAcciones = new javax.swing.JComboBox();
+        cInstancias = new javax.swing.JComboBox();
+        bMarcado = new javax.swing.JButton();
+        pOnto = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 290, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 513, Short.MAX_VALUE)
-        );
+        lOnto.setText("Ontologia");
 
-        jLabel1.setText("Ontologia");
+        lOpciones.setText("Opciones de Marcado");
 
-        jLabel2.setText("Opciones de Marcado");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 707, Short.MAX_VALUE)
+        javax.swing.GroupLayout pFotoLayout = new javax.swing.GroupLayout(pFoto);
+        pFoto.setLayout(pFotoLayout);
+        pFotoLayout.setHorizontalGroup(
+            pFotoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 691, Short.MAX_VALUE)
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 513, Short.MAX_VALUE)
+        pFotoLayout.setVerticalGroup(
+            pFotoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 516, Short.MAX_VALUE)
         );
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cAcciones.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cInstancias.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jButton1.setText("Marcar");
+        bMarcado.setText("Marcar");
+
+        pOnto.setLayout(new java.awt.BorderLayout());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -90,50 +80,49 @@ public class HerramientaMarcado extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lOnto)
+                    .addComponent(pOnto, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(pFoto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(260, 260, 260)
-                        .addComponent(jLabel2)
+                        .addComponent(lOpciones)
                         .addGap(18, 18, 18)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cAcciones, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox2, 0, 208, Short.MAX_VALUE)
+                        .addComponent(cInstancias, 0, 208, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
+                        .addComponent(bMarcado)
                         .addGap(32, 32, 32))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(lOnto)
+                    .addComponent(lOpciones)
+                    .addComponent(cAcciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cInstancias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bMarcado))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pOnto, javax.swing.GroupLayout.DEFAULT_SIZE, 516, Short.MAX_VALUE)
+                    .addComponent(pFoto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void construyeArbol(){
-		//set Ontology
-		root= new DefaultMutableTreeNode("Thing");
-
-		ontologiaTree = new JTree(root);
-		ontologiaTree.setCellRenderer(new MyRenderer());
-		ontologiaTree.setSelectionModel(null);
+    private void inicializaOntobridge(){
+    	ob= new OntoBridge();
+    	ob.initWithPelletReasoner();
+    	
+    	OntologyDocument actoresOnto= new OntologyDocument("http://www.owl-ontologies.com/Actores.owl", "file:doc/ontologia/Actores.owl");
+    	ob.loadOntology(actoresOnto, new ArrayList<OntologyDocument>(), false);
     }
     
     /**
@@ -146,49 +135,17 @@ public class HerramientaMarcado extends javax.swing.JFrame {
             }
         });
     }
-    
-	class MyRenderer extends DefaultTreeCellRenderer {
-		private static final long serialVersionUID = 1L;
-		
-		public MyRenderer() {
-		}
 
-		public Component getTreeCellRendererComponent(JTree tree, Object value,
-				boolean sel, boolean expanded, boolean leaf, int row,
-				boolean hasFocus) {
-
-				super.getTreeCellRendererComponent(tree, value, sel, expanded,
-												   leaf, row, hasFocus);
-				
-				try {
-					DefaultMutableTreeNode dmtn = (DefaultMutableTreeNode)value;
-					if(instancias.contains( dmtn.getUserObject() ))
-						setIcon(INSTANCE);
-					else
-						setIcon(CONCEPT);
-				} catch (Exception e) {
-					//TODO: 
-				}
-			
-			    return this;
-		}
-	}
-	
-	private static int maxdepth = 10; //Constant to avoid cycles;
-	private static Icon CONCEPT  = new javax.swing.ImageIcon(JPanel.class.getResource("/arbol_imagenes/class-orange.gif"));      
-	private static Icon INSTANCE = new javax.swing.ImageIcon(JPanel.class.getResource("/arbol_imagenes/instance.gif")); 
-
-    private JTree ontologiaTree;
-    private DefaultMutableTreeNode root;
-    private ArrayList<String> instancias=new ArrayList<String>();
+    private PnlConceptsAndInstancesTree arbol;
+    private OntoBridge ob;
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JButton bMarcado;
+    private javax.swing.JComboBox cAcciones;
+    private javax.swing.JComboBox cInstancias;
+    private javax.swing.JLabel lOnto;
+    private javax.swing.JLabel lOpciones;
+    private javax.swing.JPanel pFoto;
+    private javax.swing.JPanel pOnto;
     // End of variables declaration//GEN-END:variables
 
 }
