@@ -12,6 +12,10 @@
 package GUI;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Vector;
+
+import javax.swing.DefaultComboBoxModel;
 
 import es.ucm.fdi.gaia.ontobridge.OntoBridge;
 import es.ucm.fdi.gaia.ontobridge.OntologyDocument;
@@ -24,8 +28,9 @@ public class HerramientaMarcado extends javax.swing.JFrame {
 
     /** Creates new form HerramientaMarcado */
     public HerramientaMarcado() {
-        initComponents();
+        
         inicializaOntobridge();
+        initComponents();
         arbol = new PnlConceptsAndInstancesTree(ob, false);
         pOnto.add(arbol);
         //pack();
@@ -65,9 +70,15 @@ public class HerramientaMarcado extends javax.swing.JFrame {
             .addGap(0, 516, Short.MAX_VALUE)
         );
 
-        cAcciones.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        cInstancias.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        Iterator<String> acciones = ob.listProperties("Imagen");
+        ArrayList<String> accionList = new ArrayList<String>();
+        while(acciones.hasNext()){
+        	accionList.add(ob.getShortName(acciones.next()));
+        }
+        
+        cAcciones.setModel(new DefaultComboBoxModel(accionList.toArray()));
+        cInstancias.setModel(new javax.swing.DefaultComboBoxModel());
+        cInstancias.enable(false);
 
         bMarcado.setText("Marcar");
 
