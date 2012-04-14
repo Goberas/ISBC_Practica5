@@ -13,7 +13,6 @@ package GUI;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Vector;
 
 import javax.swing.DefaultComboBoxModel;
 
@@ -45,7 +44,6 @@ public class HerramientaMarcado extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lOnto = new javax.swing.JLabel();
         lOpciones = new javax.swing.JLabel();
         pFoto = new javax.swing.JPanel();
         cAcciones = new javax.swing.JComboBox();
@@ -54,8 +52,6 @@ public class HerramientaMarcado extends javax.swing.JFrame {
         pOnto = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        lOnto.setText("Ontologia");
 
         lOpciones.setText("Opciones de Marcado");
 
@@ -70,6 +66,7 @@ public class HerramientaMarcado extends javax.swing.JFrame {
             .addGap(0, 516, Short.MAX_VALUE)
         );
 
+
         Iterator<String> acciones = ob.listProperties("Imagen");
         ArrayList<String> accionList = new ArrayList<String>();
         while(acciones.hasNext()){
@@ -78,9 +75,14 @@ public class HerramientaMarcado extends javax.swing.JFrame {
         
         cAcciones.setModel(new DefaultComboBoxModel(accionList.toArray()));
         cInstancias.setModel(new javax.swing.DefaultComboBoxModel());
-        cInstancias.enable(false);
+        //cInstancias.enable(false);
 
         bMarcado.setText("Marcar");
+        bMarcado.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bMarcadoMouseClicked(evt);
+            }
+        });
 
         pOnto.setLayout(new java.awt.BorderLayout());
 
@@ -90,9 +92,7 @@ public class HerramientaMarcado extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lOnto)
-                    .addComponent(pOnto, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(pOnto, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -113,7 +113,6 @@ public class HerramientaMarcado extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lOnto)
                     .addComponent(lOpciones)
                     .addComponent(cAcciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cInstancias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -127,6 +126,25 @@ public class HerramientaMarcado extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void bMarcadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bMarcadoMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bMarcadoMouseClicked
+
+    private void cAccionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cAccionesActionPerformed
+        // TODO add your handling code here:
+    	String accion = (String)cAcciones.getSelectedItem();
+        Iterator<String> instancias = ob.listProperties(accion);
+        ArrayList<String> instanciaList = new ArrayList<String>();
+        while(instancias.hasNext()){
+        	instanciaList.add(ob.getShortName(instancias.next()));
+        }
+        
+        cAcciones.setModel(new DefaultComboBoxModel(instanciaList.toArray()));
+        //cInstancias.enable(true);
+        cInstancias.setEnabled(true);
+        
+    }//GEN-LAST:event_cAccionesActionPerformed
 
     private void inicializaOntobridge(){
     	ob= new OntoBridge();
@@ -153,7 +171,6 @@ public class HerramientaMarcado extends javax.swing.JFrame {
     private javax.swing.JButton bMarcado;
     private javax.swing.JComboBox cAcciones;
     private javax.swing.JComboBox cInstancias;
-    private javax.swing.JLabel lOnto;
     private javax.swing.JLabel lOpciones;
     private javax.swing.JPanel pFoto;
     private javax.swing.JPanel pOnto;
