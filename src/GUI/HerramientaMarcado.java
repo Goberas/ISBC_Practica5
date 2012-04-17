@@ -74,6 +74,11 @@ public class HerramientaMarcado extends javax.swing.JFrame {
         }
         
         cAcciones.setModel(new DefaultComboBoxModel(accionList.toArray()));
+        cAcciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cAccionesActionPerformed(evt);
+            }
+        });
         cInstancias.setModel(new javax.swing.DefaultComboBoxModel());
         //cInstancias.enable(false);
 
@@ -134,16 +139,20 @@ public class HerramientaMarcado extends javax.swing.JFrame {
     private void cAccionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cAccionesActionPerformed
         // TODO add your handling code here:
     	String accion = (String)cAcciones.getSelectedItem();
-        Iterator<String> instancias = ob.listProperties(accion);
-        ArrayList<String> instanciaList = new ArrayList<String>();
-        while(instancias.hasNext()){
-        	instanciaList.add(ob.getShortName(instancias.next()));
+
+        Iterator<String> clases = ob.listPropertyRange(accion);
+        ArrayList<String> instanciasList = new ArrayList<String>();
+        if(clases.hasNext()){
+        	// Solo tenemos en cuenta cuando solo hay una clase
+        	Iterator<String> instancias = ob.listInstances(clases.next());
+        	while(instancias.hasNext()){
+        		instanciasList.add(ob.getShortName(instancias.next()));
+        	}
+        
         }
-        
-        cAcciones.setModel(new DefaultComboBoxModel(instanciaList.toArray()));
-        //cInstancias.enable(true);
+        cInstancias.setModel(new DefaultComboBoxModel(instanciasList.toArray()));
         cInstancias.setEnabled(true);
-        
+                
     }//GEN-LAST:event_cAccionesActionPerformed
 
     private void inicializaOntobridge(){
