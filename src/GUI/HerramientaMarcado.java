@@ -11,10 +11,14 @@
 
 package GUI;
 
+import java.awt.Graphics;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 
 import es.ucm.fdi.gaia.ontobridge.OntoBridge;
 import es.ucm.fdi.gaia.ontobridge.OntologyDocument;
@@ -50,6 +54,7 @@ public class HerramientaMarcado extends javax.swing.JFrame {
         cInstancias = new javax.swing.JComboBox();
         bMarcado = new javax.swing.JButton();
         pOnto = new javax.swing.JPanel();
+        bCarga = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -63,7 +68,7 @@ public class HerramientaMarcado extends javax.swing.JFrame {
         );
         pFotoLayout.setVerticalGroup(
             pFotoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 516, Short.MAX_VALUE)
+            .addGap(0, 462, Short.MAX_VALUE)
         );
 
 
@@ -90,7 +95,14 @@ public class HerramientaMarcado extends javax.swing.JFrame {
         });
 
         pOnto.setLayout(new java.awt.BorderLayout());
+        bCarga.setLabel("Cargar Imagen");
+        bCarga.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bCargaMouseClicked(evt);
+            }
+        });
 
+        
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -100,18 +112,22 @@ public class HerramientaMarcado extends javax.swing.JFrame {
                 .addComponent(pOnto, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(pFoto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lOpciones)
-                        .addGap(18, 18, 18)
-                        .addComponent(cAcciones, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cInstancias, 0, 208, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bMarcado)
-                        .addGap(32, 32, 32))))
+                		.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(lOpciones)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(cAcciones, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(cInstancias, 0, 208, Short.MAX_VALUE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(bMarcado)
+                                    .addGap(32, 32, 32))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(pFoto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addContainerGap()))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(bCarga)
+                                .addGap(321, 321, 321))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -125,7 +141,10 @@ public class HerramientaMarcado extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pOnto, javax.swing.GroupLayout.DEFAULT_SIZE, 516, Short.MAX_VALUE)
-                    .addComponent(pFoto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(pFoto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(bCarga)))
                 .addContainerGap())
         );
 
@@ -155,6 +174,22 @@ public class HerramientaMarcado extends javax.swing.JFrame {
                 
     }//GEN-LAST:event_cAccionesActionPerformed
 
+    private void bCargaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bCargaMouseClicked
+        // TODO add your handling code here:
+    	JFileChooser filechooser=new JFileChooser();
+ 
+    	if(filechooser.showOpenDialog(this)==JFileChooser.APPROVE_OPTION){
+
+    		File Imagen = filechooser.getSelectedFile();
+    		ImageIcon foto = new ImageIcon(Imagen.getAbsolutePath());
+    		Graphics graf = pFoto.getGraphics();
+    		graf.drawImage(foto.getImage(),0,0,pFoto.getWidth(),pFoto.getHeight(), null);
+    		pFoto.paintComponents(graf);
+    	
+    		System.out.println(Imagen.getAbsolutePath());
+    	}
+    }//GEN-LAST:event_bCargaMouseClicked
+
     private void inicializaOntobridge(){
     	ob= new OntoBridge();
     	ob.initWithPelletReasoner();
@@ -177,6 +212,7 @@ public class HerramientaMarcado extends javax.swing.JFrame {
     private PnlConceptsAndInstancesTree arbol;
     private OntoBridge ob;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bCarga;
     private javax.swing.JButton bMarcado;
     private javax.swing.JComboBox cAcciones;
     private javax.swing.JComboBox cInstancias;
