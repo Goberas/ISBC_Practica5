@@ -260,6 +260,7 @@ public class HerramientaMarcado extends javax.swing.JFrame {
 				cAcciones.setEnabled(true);
 				cInstancias.setEnabled(true);
 				bMarcado.setEnabled(true);
+				actualizaImagen();
 			}
 		} else {
 			cAcciones.setEnabled(false);
@@ -315,19 +316,24 @@ public class HerramientaMarcado extends javax.swing.JFrame {
     	if(filechooser.showOpenDialog(this)==JFileChooser.APPROVE_OPTION){
 
     		Imagen = filechooser.getSelectedFile();
-    		ImageIcon foto = new ImageIcon(Imagen.getAbsolutePath());
-    		Graphics graf = pFoto.getGraphics();
-    		graf.drawImage(foto.getImage(),0,0,pFoto.getWidth(),pFoto.getHeight(), null);
-    		pFoto.paintComponents(graf);
+    		actualizaImagen();
     	
     		System.out.println("Imagen cargada: "+Imagen.getAbsolutePath());
             bMarcado.setEnabled(true);
     	    cAcciones.setEnabled(true);
     	    cInstancias.setEnabled(true);
+    	    panelTabulado.setSelectedIndex(0);
     	}
     }//GEN-LAST:event_bCargaMouseClicked
 
-    private void inicializaOntobridge(){
+    private void actualizaImagen() {
+		ImageIcon foto = new ImageIcon(Imagen.getAbsolutePath());
+		Graphics graf = pFoto.getGraphics();
+		graf.drawImage(foto.getImage(),0,0,pFoto.getWidth(),pFoto.getHeight(), null);
+		pFoto.paintComponents(graf);
+	}
+
+	private void inicializaOntobridge(){
     	ob= new OntoBridge();
     	ob.initWithPelletReasoner();
     	
