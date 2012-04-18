@@ -273,7 +273,7 @@ public class HerramientaMarcado extends javax.swing.JFrame {
         String propiedad = cAcciones.getSelectedItem().toString();
         String personaje = cInstancias.getSelectedItem().toString();
         String imgURL = Imagen.getAbsolutePath();
-        String imgName = imgURL.substring(0, imgURL.length()-4); 
+        String imgName = Imagen.getName().substring(0, Imagen.getName().length()-4); 
         // Quitamos la parte ".jpg":
         imgURL = imgURL.substring(0, imgURL.length()-4);
         // Si no esta creada la instancia de imagen se crea:
