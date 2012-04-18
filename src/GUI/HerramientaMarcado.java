@@ -263,7 +263,6 @@ public class HerramientaMarcado extends javax.swing.JFrame {
 				bMarcado.setEnabled(true);
 			}
 		} else {
-			bCarga.setEnabled(false);
 			cAcciones.setEnabled(false);
 			cInstancias.setEnabled(false);
 			bMarcado.setEnabled(false);
