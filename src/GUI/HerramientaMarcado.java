@@ -1,3 +1,7 @@
+
+
+//*------------------------------------------------------------------------------------------
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -12,6 +16,7 @@
 package GUI;
 
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -34,7 +39,6 @@ public class HerramientaMarcado extends javax.swing.JFrame {
         
         inicializaOntobridge();
         initComponents();
-        bMarcado.setEnabled(false);
         arbol = new PnlConceptsAndInstancesTree(ob, false);
         pOnto.add(arbol);
         //pack();
@@ -50,33 +54,31 @@ public class HerramientaMarcado extends javax.swing.JFrame {
     private void initComponents() {
 
         lOpciones = new javax.swing.JLabel();
-        pFoto = new javax.swing.JPanel();
         cAcciones = new javax.swing.JComboBox();
         cInstancias = new javax.swing.JComboBox();
         bMarcado = new javax.swing.JButton();
         pOnto = new javax.swing.JPanel();
         bCarga = new javax.swing.JButton();
+        panelTabulado = new javax.swing.JTabbedPane();
+        pFoto = new javax.swing.JPanel();
+        pBuscar = new javax.swing.JPanel();
+        pFotoRecu = new javax.swing.JPanel();
+        bRecu = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tablaRecu = new javax.swing.JTable();
+        textoRecu = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         lOpciones.setText("Opciones de Marcado");
 
-        javax.swing.GroupLayout pFotoLayout = new javax.swing.GroupLayout(pFoto);
-        pFoto.setLayout(pFotoLayout);
-        pFotoLayout.setHorizontalGroup(
-            pFotoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 691, Short.MAX_VALUE)
-        );
-        pFotoLayout.setVerticalGroup(
-            pFotoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 462, Short.MAX_VALUE)
-        );
-
-
+       
         Iterator<String> acciones = ob.listProperties("Imagen");
         ArrayList<String> accionList = new ArrayList<String>();
         while(acciones.hasNext()){
-        	accionList.add(ob.getShortName(acciones.next()));
+        	String accion = acciones.next();
+        	if (!accion.contains("urlfoto"))
+        		accionList.add(ob.getShortName(accion));
         }
         
         cAcciones.setModel(new DefaultComboBoxModel(accionList.toArray()));
@@ -86,7 +88,20 @@ public class HerramientaMarcado extends javax.swing.JFrame {
             }
         });
 
-        cInstancias.setModel(new DefaultComboBoxModel());
+        String accion = (String)cAcciones.getSelectedItem();
+        Iterator<String> clases = ob.listPropertyRange(accion);
+	    ArrayList<String> instanciasList = new ArrayList<String>();
+	    if(clases.hasNext()){
+	    	// Solo tenemos en cuenta cuando solo hay una clase
+	        Iterator<String> instancias = ob.listInstances(clases.next());
+	        while(instancias.hasNext()){
+	        	instanciasList.add(ob.getShortName(instancias.next()));
+	        }
+	    }
+	    cInstancias.setModel(new DefaultComboBoxModel(instanciasList.toArray()));
+	    
+	    cAcciones.setEnabled(false);
+	    cInstancias.setEnabled(false);
 
         bMarcado.setText("Marcar");
         bMarcado.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -94,8 +109,11 @@ public class HerramientaMarcado extends javax.swing.JFrame {
                 bMarcadoMouseClicked(evt);
             }
         });
+        
+        bMarcado.setEnabled(false);
 
         pOnto.setLayout(new java.awt.BorderLayout());
+
         bCarga.setLabel("Cargar Imagen");
         bCarga.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -103,7 +121,92 @@ public class HerramientaMarcado extends javax.swing.JFrame {
             }
         });
 
-        
+        javax.swing.GroupLayout pFotoLayout = new javax.swing.GroupLayout(pFoto);
+        pFoto.setLayout(pFotoLayout);
+        pFotoLayout.setHorizontalGroup(
+            pFotoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 686, Short.MAX_VALUE)
+        );
+        pFotoLayout.setVerticalGroup(
+            pFotoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 427, Short.MAX_VALUE)
+        );
+
+        panelTabulado.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+            	cambiaEstado();
+            }
+        });
+        panelTabulado.addTab("Marcar", pFoto);
+
+        javax.swing.GroupLayout pFotoRecuLayout = new javax.swing.GroupLayout(pFotoRecu);
+        pFotoRecu.setLayout(pFotoRecuLayout);
+        pFotoRecuLayout.setHorizontalGroup(
+            pFotoRecuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 464, Short.MAX_VALUE)
+        );
+        pFotoRecuLayout.setVerticalGroup(
+            pFotoRecuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 375, Short.MAX_VALUE)
+        );
+
+        bRecu.setText("Recuperar");
+
+        tablaRecu.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Imagenes"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(tablaRecu);
+        tablaRecu.getColumnModel().getColumn(0).setResizable(false);
+
+        javax.swing.GroupLayout pBuscarLayout = new javax.swing.GroupLayout(pBuscar);
+        pBuscar.setLayout(pBuscarLayout);
+        pBuscarLayout.setHorizontalGroup(
+            pBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pBuscarLayout.createSequentialGroup()
+                .addGroup(pBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(pFotoRecu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pBuscarLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(textoRecu)))
+                .addGroup(pBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pBuscarLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                        .addComponent(bRecu, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(59, 59, 59))
+                    .addGroup(pBuscarLayout.createSequentialGroup()
+                        .addGap(13, 13, 13)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE))))
+        );
+        pBuscarLayout.setVerticalGroup(
+            pBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pBuscarLayout.createSequentialGroup()
+                .addGroup(pBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pBuscarLayout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE))
+                    .addComponent(pFotoRecu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(pBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bRecu)
+                    .addComponent(textoRecu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        panelTabulado.addTab("Buscar", pBuscar);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -113,22 +216,21 @@ public class HerramientaMarcado extends javax.swing.JFrame {
                 .addComponent(pOnto, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                		.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(lOpciones)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(cAcciones, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(cInstancias, 0, 208, Short.MAX_VALUE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(bMarcado)
-                                    .addGap(32, 32, 32))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(pFoto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addContainerGap()))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(bCarga)
-                                .addGap(321, 321, 321))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(panelTabulado, javax.swing.GroupLayout.DEFAULT_SIZE, 691, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lOpciones)
+                        .addGap(18, 18, 18)
+                        .addComponent(cAcciones, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cInstancias, 0, 237, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bMarcado)
+                        .addGap(32, 32, 32))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(bCarga)
+                        .addGap(321, 321, 321))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -143,14 +245,30 @@ public class HerramientaMarcado extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pOnto, javax.swing.GroupLayout.DEFAULT_SIZE, 516, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(pFoto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(panelTabulado, javax.swing.GroupLayout.PREFERRED_SIZE, 455, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(bCarga)))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    protected void cambiaEstado() {
+		if (panelTabulado.getSelectedIndex()==0){
+			if (Imagen.exists()){
+				bCarga.setEnabled(true);
+				cAcciones.setEnabled(true);
+				cInstancias.setEnabled(true);
+				bMarcado.setEnabled(true);
+			}
+		} else {
+			bCarga.setEnabled(false);
+			cAcciones.setEnabled(false);
+			cInstancias.setEnabled(false);
+			bMarcado.setEnabled(false);
+		}
+	}
 
     private void bMarcadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bMarcadoMouseClicked
         String propiedad = cAcciones.getSelectedItem().toString();
@@ -165,25 +283,35 @@ public class HerramientaMarcado extends javax.swing.JFrame {
         ob.createDataTypeProperty(imgName, propiedad, personaje); 
     }//GEN-LAST:event_bMarcadoMouseClicked
 
-    private void cAccionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cAccionesActionPerformed
-        // TODO add your handling code here:
+	private void cAccionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cAccionesActionPerformed
     	String accion = (String)cAcciones.getSelectedItem();
 
-        Iterator<String> clases = ob.listPropertyRange(accion);
-        ArrayList<String> instanciasList = new ArrayList<String>();
-        if(clases.hasNext()){
+    	if (accion.equals("rodada_en")){
+	        Iterator<String> clases = ob.listInstances("Pais");
+	        ArrayList<String> instanciasList = new ArrayList<String>();
         	// Solo tenemos en cuenta cuando solo hay una clase
-        	Iterator<String> instancias = ob.listInstances(clases.next());
-        	while(instancias.hasNext()){
-        		instanciasList.add(ob.getShortName(instancias.next()));
+        	//Iterator<String> instancias = ob.listInstances(clases.next());
+        	while(clases.hasNext()){
+        		instanciasList.add(ob.getShortName(clases.next()));
         	}
-        }
-        cInstancias.setModel(new DefaultComboBoxModel(instanciasList.toArray()));
-        cInstancias.setEnabled(true);
+            cInstancias.setModel(new DefaultComboBoxModel(instanciasList.toArray()));
+            cInstancias.setEnabled(true);
+    	} else {
+	        Iterator<String> clases = ob.listPropertyRange(accion);
+	        ArrayList<String> instanciasList = new ArrayList<String>();
+	        if(clases.hasNext()){
+	        	// Solo tenemos en cuenta cuando solo hay una clase
+	        	Iterator<String> instancias = ob.listInstances(clases.next());
+	        	while(instancias.hasNext()){
+	        		instanciasList.add(ob.getShortName(instancias.next()));
+	        	}
+	        }
+	        cInstancias.setModel(new DefaultComboBoxModel(instanciasList.toArray()));
+	        cInstancias.setEnabled(true);
+    	}
     }//GEN-LAST:event_cAccionesActionPerformed
 
     private void bCargaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bCargaMouseClicked
-        // TODO add your handling code here:
     	JFileChooser filechooser=new JFileChooser();
  
     	if(filechooser.showOpenDialog(this)==JFileChooser.APPROVE_OPTION){
@@ -196,12 +324,15 @@ public class HerramientaMarcado extends javax.swing.JFrame {
     	
     		System.out.println("Imagen cargada: "+Imagen.getAbsolutePath());
             bMarcado.setEnabled(true);
+    	    cAcciones.setEnabled(true);
+    	    cInstancias.setEnabled(true);
     	}
     }//GEN-LAST:event_bCargaMouseClicked
 
     private void inicializaOntobridge(){
     	ob= new OntoBridge();
     	ob.initWithPelletReasoner();
+    	
     	OntologyDocument actoresOnto= new OntologyDocument("http://www.owl-ontologies.com/Actores.owl", "file:doc/ontologia/Actores.owl");
     	ob.loadOntology(actoresOnto, new ArrayList<OntologyDocument>(), false);
     }
@@ -222,12 +353,25 @@ public class HerramientaMarcado extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCarga;
     private javax.swing.JButton bMarcado;
+    private javax.swing.JButton bRecu;
     private javax.swing.JComboBox cAcciones;
     private javax.swing.JComboBox cInstancias;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lOpciones;
+    private javax.swing.JPanel pBuscar;
     private javax.swing.JPanel pFoto;
+    private javax.swing.JPanel pFotoRecu;
     private javax.swing.JPanel pOnto;
+    private javax.swing.JTabbedPane panelTabulado;
+    private javax.swing.JTable tablaRecu;
+    private javax.swing.JTextField textoRecu;
     private File Imagen;
     // End of variables declaration//GEN-END:variables
 
 }
+
+
+
+
+
+
