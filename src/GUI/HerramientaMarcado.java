@@ -34,6 +34,7 @@ public class HerramientaMarcado extends javax.swing.JFrame {
         
         inicializaOntobridge();
         initComponents();
+        bMarcado.setEnabled(false);
         arbol = new PnlConceptsAndInstancesTree(ob, false);
         pOnto.add(arbol);
         //pack();
@@ -87,11 +88,22 @@ public class HerramientaMarcado extends javax.swing.JFrame {
         
 
         Iterator<String> personajes = ob.listInstances("Personaje");
-        ArrayList<String> personList = new ArrayList<String>();
+        ArrayList<String> instList = new ArrayList<String>();
+        instList.add("-----Personajes-----");
         while(personajes.hasNext()){
-        	personList.add(ob.getShortName(personajes.next()));
+        	instList.add(ob.getShortName(personajes.next()));
         }
-        cInstancias.setModel(new DefaultComboBoxModel(personList.toArray()));
+        instList.add("-----Generos-----");
+        Iterator<String> genero = ob.listInstances("Genero");
+        while(genero.hasNext()){
+        	instList.add(ob.getShortName(genero.next()));
+        }
+        instList.add("-----Peliculas-----");
+        Iterator<String> pelis = ob.listInstances("Genero");
+        while(pelis.hasNext()){
+        	instList.add(ob.getShortName(pelis.next()));
+        }
+        cInstancias.setModel(new DefaultComboBoxModel(instList.toArray()));
 
         bMarcado.setText("Marcar");
         bMarcado.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -158,8 +170,16 @@ public class HerramientaMarcado extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bMarcadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bMarcadoMouseClicked
-        // TODO add your handling code here:
-    	
+        String propiedad = cAcciones.getSelectedItem().toString();
+        String personaje = cInstancias.getSelectedItem().toString();
+        String imgURL = Imagen.getAbsolutePath();
+        String imgName = imgURL.substring(0, imgURL.length()-4);
+        // Quitamos la parte ".jpg":
+        imgURL = imgURL.substring(0, imgURL.length()-4);
+        // Si no esta creada la instancia de imagen se crea:
+        if (!ob.existsInstance(imgName))
+        	ob.createInstance("Imagen", imgName);    
+        ob.createDataTypeProperty(imgName, propiedad, personaje); 
     }//GEN-LAST:event_bMarcadoMouseClicked
 
     private void cAccionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cAccionesActionPerformed
@@ -174,11 +194,9 @@ public class HerramientaMarcado extends javax.swing.JFrame {
         	while(instancias.hasNext()){
         		instanciasList.add(ob.getShortName(instancias.next()));
         	}
-        
         }
         cInstancias.setModel(new DefaultComboBoxModel(instanciasList.toArray()));
         cInstancias.setEnabled(true);
-                
     }//GEN-LAST:event_cAccionesActionPerformed
 
     private void bCargaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bCargaMouseClicked
@@ -187,20 +205,20 @@ public class HerramientaMarcado extends javax.swing.JFrame {
  
     	if(filechooser.showOpenDialog(this)==JFileChooser.APPROVE_OPTION){
 
-    		File Imagen = filechooser.getSelectedFile();
+    		Imagen = filechooser.getSelectedFile();
     		ImageIcon foto = new ImageIcon(Imagen.getAbsolutePath());
     		Graphics graf = pFoto.getGraphics();
     		graf.drawImage(foto.getImage(),0,0,pFoto.getWidth(),pFoto.getHeight(), null);
     		pFoto.paintComponents(graf);
     	
-    		System.out.println(Imagen.getAbsolutePath());
+    		System.out.println("Imagen cargada: "+Imagen.getAbsolutePath());
+            bMarcado.setEnabled(true);
     	}
     }//GEN-LAST:event_bCargaMouseClicked
 
     private void inicializaOntobridge(){
     	ob= new OntoBridge();
     	ob.initWithPelletReasoner();
-    	
     	OntologyDocument actoresOnto= new OntologyDocument("http://www.owl-ontologies.com/Actores.owl", "file:doc/ontologia/Actores.owl");
     	ob.loadOntology(actoresOnto, new ArrayList<OntologyDocument>(), false);
     }
@@ -226,6 +244,7 @@ public class HerramientaMarcado extends javax.swing.JFrame {
     private javax.swing.JLabel lOpciones;
     private javax.swing.JPanel pFoto;
     private javax.swing.JPanel pOnto;
+    private File Imagen;
     // End of variables declaration//GEN-END:variables
 
 }
