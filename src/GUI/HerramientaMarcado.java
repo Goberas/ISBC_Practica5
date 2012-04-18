@@ -12,7 +12,6 @@
 package GUI;
 
 import java.awt.Graphics;
-import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -50,23 +49,28 @@ public class HerramientaMarcado extends javax.swing.JFrame {
     private void initComponents() {
 
         lOpciones = new javax.swing.JLabel();
+        pFoto = new javax.swing.JPanel();
         cAcciones = new javax.swing.JComboBox();
         cInstancias = new javax.swing.JComboBox();
         bMarcado = new javax.swing.JButton();
         pOnto = new javax.swing.JPanel();
         bCarga = new javax.swing.JButton();
-        panelTabulado = new javax.swing.JTabbedPane();
-        pFoto = new javax.swing.JPanel();
-        pBuscar = new javax.swing.JPanel();
-        pFotoRecu = new javax.swing.JPanel();
-        bRecu = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tablaRecu = new javax.swing.JTable();
-        textoRecu = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         lOpciones.setText("Opciones de Marcado");
+
+        javax.swing.GroupLayout pFotoLayout = new javax.swing.GroupLayout(pFoto);
+        pFoto.setLayout(pFotoLayout);
+        pFotoLayout.setHorizontalGroup(
+            pFotoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 691, Short.MAX_VALUE)
+        );
+        pFotoLayout.setVerticalGroup(
+            pFotoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 462, Short.MAX_VALUE)
+        );
+
 
         Iterator<String> acciones = ob.listProperties("Imagen");
         ArrayList<String> accionList = new ArrayList<String>();
@@ -80,9 +84,14 @@ public class HerramientaMarcado extends javax.swing.JFrame {
                 cAccionesActionPerformed(evt);
             }
         });
+        
 
-        cInstancias.setEditable(true);
-        cInstancias.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        Iterator<String> personajes = ob.listInstances("Personaje");
+        ArrayList<String> personList = new ArrayList<String>();
+        while(personajes.hasNext()){
+        	personList.add(ob.getShortName(personajes.next()));
+        }
+        cInstancias.setModel(new DefaultComboBoxModel(personList.toArray()));
 
         bMarcado.setText("Marcar");
         bMarcado.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -92,7 +101,6 @@ public class HerramientaMarcado extends javax.swing.JFrame {
         });
 
         pOnto.setLayout(new java.awt.BorderLayout());
-
         bCarga.setLabel("Cargar Imagen");
         bCarga.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -100,92 +108,7 @@ public class HerramientaMarcado extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout pFotoLayout = new javax.swing.GroupLayout(pFoto);
-        pFoto.setLayout(pFotoLayout);
-        pFotoLayout.setHorizontalGroup(
-            pFotoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 686, Short.MAX_VALUE)
-        );
-        pFotoLayout.setVerticalGroup(
-            pFotoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 427, Short.MAX_VALUE)
-        );
-
-        panelTabulado.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-            	cambiaEstado();
-            }
-        });
-        panelTabulado.addTab("Marcar", pFoto);
-
-        javax.swing.GroupLayout pFotoRecuLayout = new javax.swing.GroupLayout(pFotoRecu);
-        pFotoRecu.setLayout(pFotoRecuLayout);
-        pFotoRecuLayout.setHorizontalGroup(
-            pFotoRecuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 464, Short.MAX_VALUE)
-        );
-        pFotoRecuLayout.setVerticalGroup(
-            pFotoRecuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 375, Short.MAX_VALUE)
-        );
-
-        bRecu.setText("Recuperar");
-
-        tablaRecu.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Imagenes"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane2.setViewportView(tablaRecu);
-        tablaRecu.getColumnModel().getColumn(0).setResizable(false);
-
-        javax.swing.GroupLayout pBuscarLayout = new javax.swing.GroupLayout(pBuscar);
-        pBuscar.setLayout(pBuscarLayout);
-        pBuscarLayout.setHorizontalGroup(
-            pBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pBuscarLayout.createSequentialGroup()
-                .addGroup(pBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(pFotoRecu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(pBuscarLayout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(textoRecu)))
-                .addGroup(pBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pBuscarLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
-                        .addComponent(bRecu, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(59, 59, 59))
-                    .addGroup(pBuscarLayout.createSequentialGroup()
-                        .addGap(13, 13, 13)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE))))
-        );
-        pBuscarLayout.setVerticalGroup(
-            pBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pBuscarLayout.createSequentialGroup()
-                .addGroup(pBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pBuscarLayout.createSequentialGroup()
-                        .addGap(11, 11, 11)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE))
-                    .addComponent(pFotoRecu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addGroup(pBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bRecu)
-                    .addComponent(textoRecu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
-
-        panelTabulado.addTab("Buscar", pBuscar);
-
+        
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -195,21 +118,22 @@ public class HerramientaMarcado extends javax.swing.JFrame {
                 .addComponent(pOnto, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(panelTabulado, javax.swing.GroupLayout.DEFAULT_SIZE, 691, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lOpciones)
-                        .addGap(18, 18, 18)
-                        .addComponent(cAcciones, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cInstancias, 0, 237, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bMarcado)
-                        .addGap(32, 32, 32))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(bCarga)
-                        .addGap(321, 321, 321))))
+                		.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(lOpciones)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(cAcciones, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(cInstancias, 0, 208, Short.MAX_VALUE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(bMarcado)
+                                    .addGap(32, 32, 32))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(pFoto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addContainerGap()))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(bCarga)
+                                .addGap(321, 321, 321))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -224,8 +148,8 @@ public class HerramientaMarcado extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pOnto, javax.swing.GroupLayout.DEFAULT_SIZE, 516, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(panelTabulado, javax.swing.GroupLayout.PREFERRED_SIZE, 455, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(pFoto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(bCarga)))
                 .addContainerGap())
         );
@@ -233,22 +157,9 @@ public class HerramientaMarcado extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    protected void cambiaEstado() {
-		if (panelTabulado.getSelectedIndex()==0){
-			bCarga.setEnabled(true);
-			cAcciones.setEnabled(true);
-			cInstancias.setEnabled(true);
-			bMarcado.setEnabled(true);
-		} else {
-			bCarga.setEnabled(false);
-			cAcciones.setEnabled(false);
-			cInstancias.setEnabled(false);
-			bMarcado.setEnabled(false);
-		}
-	}
-
-	private void bMarcadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bMarcadoMouseClicked
+    private void bMarcadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bMarcadoMouseClicked
         // TODO add your handling code here:
+    	
     }//GEN-LAST:event_bMarcadoMouseClicked
 
     private void cAccionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cAccionesActionPerformed
@@ -310,18 +221,11 @@ public class HerramientaMarcado extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCarga;
     private javax.swing.JButton bMarcado;
-    private javax.swing.JButton bRecu;
     private javax.swing.JComboBox cAcciones;
     private javax.swing.JComboBox cInstancias;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lOpciones;
-    private javax.swing.JPanel pBuscar;
     private javax.swing.JPanel pFoto;
-    private javax.swing.JPanel pFotoRecu;
     private javax.swing.JPanel pOnto;
-    private javax.swing.JTabbedPane panelTabulado;
-    private javax.swing.JTable tablaRecu;
-    private javax.swing.JTextField textoRecu;
     // End of variables declaration//GEN-END:variables
 
 }
