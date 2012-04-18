@@ -256,8 +256,7 @@ public class HerramientaMarcado extends javax.swing.JFrame {
 
     protected void cambiaEstado() {
 		if (panelTabulado.getSelectedIndex()==0){
-		bCarga.setEnabled(true);
-			if (Imagen.exists()){
+			if (Imagen!=null){
 				cAcciones.setEnabled(true);
 				cInstancias.setEnabled(true);
 				bMarcado.setEnabled(true);
