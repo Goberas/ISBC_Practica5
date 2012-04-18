@@ -85,25 +85,8 @@ public class HerramientaMarcado extends javax.swing.JFrame {
                 cAccionesActionPerformed(evt);
             }
         });
-        
 
-        Iterator<String> personajes = ob.listInstances("Personaje");
-        ArrayList<String> instList = new ArrayList<String>();
-        instList.add("-----Personajes-----");
-        while(personajes.hasNext()){
-        	instList.add(ob.getShortName(personajes.next()));
-        }
-        instList.add("-----Generos-----");
-        Iterator<String> genero = ob.listInstances("Genero");
-        while(genero.hasNext()){
-        	instList.add(ob.getShortName(genero.next()));
-        }
-        instList.add("-----Peliculas-----");
-        Iterator<String> pelis = ob.listInstances("Genero");
-        while(pelis.hasNext()){
-        	instList.add(ob.getShortName(pelis.next()));
-        }
-        cInstancias.setModel(new DefaultComboBoxModel(instList.toArray()));
+        cInstancias.setModel(new DefaultComboBoxModel());
 
         bMarcado.setText("Marcar");
         bMarcado.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -173,7 +156,7 @@ public class HerramientaMarcado extends javax.swing.JFrame {
         String propiedad = cAcciones.getSelectedItem().toString();
         String personaje = cInstancias.getSelectedItem().toString();
         String imgURL = Imagen.getAbsolutePath();
-        String imgName = imgURL.substring(0, imgURL.length()-4);
+        String imgName = imgURL.substring(0, imgURL.length()-4); 
         // Quitamos la parte ".jpg":
         imgURL = imgURL.substring(0, imgURL.length()-4);
         // Si no esta creada la instancia de imagen se crea:
