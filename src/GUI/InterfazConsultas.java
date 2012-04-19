@@ -213,7 +213,7 @@ public class InterfazConsultas extends javax.swing.JFrame {
     	}
     	return lista;	
     }
-    
+
     /**
     * @param args the command line arguments
     */

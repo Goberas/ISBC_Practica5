@@ -24,6 +24,8 @@ import java.util.Iterator;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import es.ucm.fdi.gaia.ontobridge.OntoBridge;
 import es.ucm.fdi.gaia.ontobridge.OntologyDocument;
@@ -66,7 +68,7 @@ public class HerramientaMarcado extends javax.swing.JFrame {
         bRecu = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaRecu = new javax.swing.JTable();
-        textoRecu = new javax.swing.JTextField();
+        textoRecu = new javax.swing.JTextField("Escenas de Bart Simpson en Los Simpson");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -77,7 +79,7 @@ public class HerramientaMarcado extends javax.swing.JFrame {
         ArrayList<String> accionList = new ArrayList<String>();
         while(acciones.hasNext()){
         	String accion = acciones.next();
-        	if (!accion.contains("urlfoto"))
+        	if (!accion.contains("urlfoto") && !accion.contains("rodada_en"))
         		accionList.add(ob.getShortName(accion));
         }
         
@@ -114,7 +116,7 @@ public class HerramientaMarcado extends javax.swing.JFrame {
 
         pOnto.setLayout(new java.awt.BorderLayout());
 
-        bCarga.setLabel("Cargar Imagen");
+        bCarga.setText("Cargar Imagen");
         bCarga.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 bCargaMouseClicked(evt);
@@ -151,6 +153,11 @@ public class HerramientaMarcado extends javax.swing.JFrame {
         );
 
         bRecu.setText("Recuperar");
+        bRecu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bRecuMouseEvent(evt);
+            }
+        });
 
         tablaRecu.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -166,6 +173,12 @@ public class HerramientaMarcado extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tablaRecu.setFocusable(false);
+        tablaRecu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+            	muestraImagen();
             }
         });
         jScrollPane2.setViewportView(tablaRecu);
@@ -254,7 +267,104 @@ public class HerramientaMarcado extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    protected void cambiaEstado() {
+    private void muestraImagen() {
+    	if (tablaRecu.getRowCount()>0){
+    		String url = "";
+	    	String imagen = tablaRecu.getValueAt(tablaRecu.getSelectedRow(), 0).toString();
+	    	Iterator<String> values = ob.listPropertyValue(imagen, "urlfoto");
+	    	while (values.hasNext()){
+	    		url = values.next();
+	    	}
+			ImageIcon foto = new ImageIcon(url);
+			Graphics graf = pFotoRecu.getGraphics();
+			graf.drawImage(foto.getImage(),0,0,pFotoRecu.getWidth(),pFotoRecu.getHeight(), null);
+			pFotoRecu.paintComponents(graf);
+    	}
+	}
+
+    private void bRecuMouseEvent(MouseEvent evt) {
+		// Sacamos las imagenes:
+        Iterator<String> imgs = ob.listInstances("Imagen");
+		// Separamos por " de "
+    	String[] mitad1 = textoRecu.getText().split(" de ");
+    	if (mitad1[1].contains((CharSequence)(" en "))){
+	        ArrayList<String> instanciasList = new ArrayList<String>();
+	    	// Separamos por " en "
+	    	String[] mitad2 = mitad1[1].split(" en ");
+	    	// Sacamos los argumentos:
+	        String arg1 = mitad2[0].replace((CharSequence)(" "),(CharSequence)("_"));
+	        String arg2 = mitad2[1].replace((CharSequence)(" "),(CharSequence)("_"));
+	        // Recuperamos:
+        	while(imgs.hasNext()){
+        		String imgName = imgs.next();
+    	        Iterator<String> aparece = ob.listPropertyValue(imgName, "aparece");
+    	        while (aparece.hasNext()){
+            		String aux1 = ob.getShortName(aparece.next());
+            		if (aux1.equals(arg1)){
+            			// Vemos si sale en una pelicula:
+            	        Iterator<String> propiedad = ob.listPropertyValue(imgName, "escena_de_pelicula");
+            	        while (propiedad.hasNext()){
+                    		String aux2 = ob.getShortName(propiedad.next());
+                    		if (aux2.equals(arg2)){
+                    			instanciasList.add(ob.getShortName(imgName));
+                    			break;
+                    		}
+            	        }
+            			// Vemos si sale en una serie:
+            	        propiedad = ob.listPropertyValue(imgName, "escena_de_serie");
+            	        while (propiedad.hasNext()){
+                    		String aux2 = ob.getShortName(propiedad.next());
+                    		if (aux2.equals(arg2)){
+                    			instanciasList.add(ob.getShortName(imgName));
+                    			break;
+                    		}
+            	        }
+            			// Vemos si pertenece a algun genero:
+            	        propiedad = ob.listPropertyValue(imgName, "escena_de_genero");
+            	        while (propiedad.hasNext()){
+                    		String aux2 = ob.getShortName(propiedad.next());
+                    		if (aux2.equals(arg2)){
+                    			instanciasList.add(ob.getShortName(imgName));
+                    			break;
+                    		}
+            	        }
+            		}
+    	        }
+            	Iterator<String> it = instanciasList.iterator();
+            	imprimeTabla(it);
+        	}
+    	} else {
+	        // Cogemos el argumento:
+	        String arg = mitad1[1].replace((CharSequence)(" "),(CharSequence)("_"));
+	        ArrayList<String> instanciasList = new ArrayList<String>();
+    		// Recuperamos:
+        	while(imgs.hasNext()){
+        		String imgName = imgs.next();
+    	        Iterator<String> aparece = ob.listPropertyValue(imgName, "aparece");
+    	        while (aparece.hasNext()){
+            		String aux = ob.getShortName(aparece.next());
+            		if (aux.equals(arg)){
+                		instanciasList.add(ob.getShortName(imgName));
+                		break;
+    	        	}
+    	        }
+        	}
+        	Iterator<String> it = instanciasList.iterator();
+        	imprimeTabla(it);
+    	}
+	}
+    
+    private void imprimeTabla(Iterator<String> it){        	
+    	borraTabla();
+		while(it.hasNext()){
+			DefaultTableModel model=(DefaultTableModel) tablaRecu.getModel();
+			model.addRow(new Object[]{
+	        	it.next()
+			});
+		}
+    }
+
+	private void cambiaEstado() {
 		if (panelTabulado.getSelectedIndex()==0){
 			if (Imagen!=null){
 				cAcciones.setEnabled(true);
@@ -272,43 +382,36 @@ public class HerramientaMarcado extends javax.swing.JFrame {
     private void bMarcadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bMarcadoMouseClicked
         String propiedad = cAcciones.getSelectedItem().toString();
         String personaje = cInstancias.getSelectedItem().toString();
+        
         String imgURL = Imagen.getAbsolutePath();
         String imgName = Imagen.getName().substring(0, Imagen.getName().length()-4); 
         // Quitamos la parte ".jpg":
         imgURL = imgURL.substring(0, imgURL.length()-4);
         // Si no esta creada la instancia de imagen se crea:
-        if (!ob.existsInstance(imgName))
-        	ob.createInstance("Imagen", imgName);    
+        if (!ob.existsInstance(imgName)){
+        	ob.createInstance("Imagen", imgName);
+        	ob.createDataTypeProperty(imgName, "urlfoto", imgURL);
+        }
         ob.createDataTypeProperty(imgName, propiedad, personaje); 
+        // Actualizamos arbol
+        arbol.readOntology();
     }//GEN-LAST:event_bMarcadoMouseClicked
 
 	private void cAccionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cAccionesActionPerformed
     	String accion = (String)cAcciones.getSelectedItem();
 
-    	if (accion.equals("rodada_en")){
-	        Iterator<String> clases = ob.listInstances("Pais");
-	        ArrayList<String> instanciasList = new ArrayList<String>();
+        Iterator<String> clases = ob.listPropertyRange(accion);
+        ArrayList<String> instanciasList = new ArrayList<String>();
+        if(clases.hasNext()){
         	// Solo tenemos en cuenta cuando solo hay una clase
-        	//Iterator<String> instancias = ob.listInstances(clases.next());
-        	while(clases.hasNext()){
-        		instanciasList.add(ob.getShortName(clases.next()));
+        	Iterator<String> instancias = ob.listInstances(clases.next());
+        	while(instancias.hasNext()){
+        		instanciasList.add(ob.getShortName(instancias.next()));
         	}
-            cInstancias.setModel(new DefaultComboBoxModel(instanciasList.toArray()));
-            cInstancias.setEnabled(true);
-    	} else {
-	        Iterator<String> clases = ob.listPropertyRange(accion);
-	        ArrayList<String> instanciasList = new ArrayList<String>();
-	        if(clases.hasNext()){
-	        	// Solo tenemos en cuenta cuando solo hay una clase
-	        	Iterator<String> instancias = ob.listInstances(clases.next());
-	        	while(instancias.hasNext()){
-	        		instanciasList.add(ob.getShortName(instancias.next()));
-	        	}
-	        }
-	        cInstancias.setModel(new DefaultComboBoxModel(instanciasList.toArray()));
-	        cInstancias.setEnabled(true);
-    	}
-    }//GEN-LAST:event_cAccionesActionPerformed
+        }
+        cInstancias.setModel(new DefaultComboBoxModel(instanciasList.toArray()));
+        cInstancias.setEnabled(true);
+   	}//GEN-LAST:event_cAccionesActionPerformed
 
     private void bCargaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bCargaMouseClicked
     	JFileChooser filechooser=new JFileChooser();
@@ -340,7 +443,12 @@ public class HerramientaMarcado extends javax.swing.JFrame {
     	OntologyDocument actoresOnto= new OntologyDocument("http://www.owl-ontologies.com/Actores.owl", "file:doc/ontologia/Actores.owl");
     	ob.loadOntology(actoresOnto, new ArrayList<OntologyDocument>(), false);
     }
-    
+	
+	private void borraTabla() {
+        DefaultTableModel model=(DefaultTableModel) tablaRecu.getModel();
+        model.setRowCount(0);
+	}
+	
     /**
     * @param args the command line arguments
     */
