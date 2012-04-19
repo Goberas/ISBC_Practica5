@@ -68,7 +68,7 @@ public class HerramientaMarcado extends javax.swing.JFrame {
         bRecu = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaRecu = new javax.swing.JTable();
-        textoRecu = new javax.swing.JTextField("Escenas de Bart Simpson en Los Simpson");
+        textoRecu = new javax.swing.JTextField("Escenas de Javier Bardem en Jamon Jamon");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -275,7 +275,10 @@ public class HerramientaMarcado extends javax.swing.JFrame {
 	    	while (values.hasNext()){
 	    		url = values.next();
 	    	}
-			ImageIcon foto = new ImageIcon(url);
+	    	String urlLimpia = url.replace("^^http://www.w3.org/2001/XMLSchema#string", "");
+	    	if (!urlLimpia.contains("home/")&&!urlLimpia.contains("C:/"))
+	    		urlLimpia = "."+urlLimpia;
+			ImageIcon foto = new ImageIcon(urlLimpia);
 			Graphics graf = pFotoRecu.getGraphics();
 			graf.drawImage(foto.getImage(),0,0,pFotoRecu.getWidth(),pFotoRecu.getHeight(), null);
 			pFotoRecu.paintComponents(graf);
@@ -382,16 +385,8 @@ public class HerramientaMarcado extends javax.swing.JFrame {
     private void bMarcadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bMarcadoMouseClicked
         String propiedad = cAcciones.getSelectedItem().toString();
         String personaje = cInstancias.getSelectedItem().toString();
-        
-        String imgURL = Imagen.getAbsolutePath();
-        String imgName = Imagen.getName().substring(0, Imagen.getName().length()-4); 
-        // Quitamos la parte ".jpg":
-        imgURL = imgURL.substring(0, imgURL.length()-4);
-        // Si no esta creada la instancia de imagen se crea:
-        if (!ob.existsInstance(imgName)){
-        	ob.createInstance("Imagen", imgName);
-        	ob.createDataTypeProperty(imgName, "urlfoto", imgURL);
-        }
+        String imgName = Imagen.getName().substring(0, Imagen.getName().length()-4);
+        // Creamos la propiedad
         ob.createDataTypeProperty(imgName, propiedad, personaje); 
         // Actualizamos arbol
         arbol.readOntology();
@@ -420,6 +415,17 @@ public class HerramientaMarcado extends javax.swing.JFrame {
 
     		Imagen = filechooser.getSelectedFile();
     		actualizaImagen();
+    		// Metemos la instancia de la imagen si no esta en la ontologia:
+    		String imgURL = Imagen.getAbsolutePath();
+    		String imgName = Imagen.getName().substring(0, Imagen.getName().length()-4); 
+            // Quitamos la parte ".jpg":
+            imgURL = imgURL.substring(0, imgURL.length()-4);
+            // Si no esta creada la instancia de imagen se crea:
+            if (!ob.existsInstance(imgName)){
+            	ob.createInstance("Imagen", imgName);
+            	ob.createDataTypeProperty(imgName, "urlfoto", imgURL);
+            	arbol.readOntology();
+            }
     	
     		System.out.println("Imagen cargada: "+Imagen.getAbsolutePath());
             bMarcado.setEnabled(true);
